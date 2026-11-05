@@ -16,7 +16,7 @@ partir de `index.html`.
 | `tokens.yaml` | Source unique des couleurs, polices et mesures |
 | `css/tokens.css` | Variables CSS **générées** depuis `tokens.yaml`, ne pas modifier à la main |
 | `css/charte.css` | Styles de base et composants communs (stylelint `standard`) |
-| `fonts/` | Police manuscrite Caveat (licence OFL, voir `fonts/OFL-Caveat.txt`) |
+| `fonts/` | Polices Caveat (manuscrite) et Inter (PDF), licences OFL dans `fonts/OFL-*.txt` |
 | `img/` | Blason, bandeaux FFTA, label Ambition, décor |
 | `index.html` | Page de démonstration (nuancier, composants) |
 | `scripts/build_tokens.py` | Génération et vérification de `css/tokens.css` |
@@ -27,6 +27,9 @@ partir de `index.html`.
   `--blue` soulignés d'un filet `--accent`.
 - Titres `h1` et `h2` en capitales, accent manuscrit en Caveat (classe
   `.manuscrit`).
+- Pages web en police système (`--font-body`). Les PDF générés utilisent
+  Inter (`--font-print`), embarquée dans la charte : leur rendu est identique
+  quelle que soit la machine de build.
 - `--gray-soft` est réservé aux éléments non textuels : son contraste est
   insuffisant pour du texte.
 - Les variables CSS et les clés de `tokens.yaml` sont en anglais, les classes
@@ -145,6 +148,7 @@ ligne pour tous les sites en quelques minutes.
 
 ## Licence
 
-Code sous licence GPL-3.0 (voir `LICENSE`). La police Caveat est sous licence
-SIL OFL 1.1. Le blason, les bandeaux FFTA et le label Ambition restent la
-propriété de leurs titulaires et ne sont pas couverts par la licence du dépôt.
+Code sous licence GPL-3.0 (voir `LICENSE`). Les polices Caveat et Inter sont
+sous licence SIL OFL 1.1. Le blason, les bandeaux FFTA et le label Ambition
+restent la propriété de leurs titulaires et ne sont pas couverts par la licence
+du dépôt.

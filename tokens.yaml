@@ -36,6 +36,8 @@ typography:
   font-body: 'system-ui, -apple-system, "Segoe UI", "Roboto", sans-serif'
   font-script: '"Caveat", "Segoe Script", "Bradley Hand", cursive'
   font-mono: "ui-monospace, monospace"
+  # Embedded font for generated PDFs: identical rendering on every build machine
+  font-print: '"Inter", "Segoe UI", "Roboto", sans-serif'
   font-size-base: "16px"
   line-height: "1.55"
   heading-letter-spacing: "0.03em"
