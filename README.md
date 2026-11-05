@@ -1,10 +1,13 @@
 # Charte graphique — Compagnie d'archers de Pontoise
 
-Couleurs, typographie, logos et styles de base communs aux sites de la compagnie :
-la vitrine `arcpontoise.fr`, [infos](https://github.com/arcpontoise/infos),
-[palmares](https://github.com/arcpontoise/palmares) et `drop.arcpontoise.fr`.
+Couleurs, typographie, logos et styles de base communs aux sites de la
+compagnie : la vitrine `arcpontoise.fr`,
+[infos](https://github.com/arcpontoise/infos),
+[palmares](https://github.com/arcpontoise/palmares) et
+[drop](https://github.com/arcpontoise/).
 
-La page de démonstration est publiée sur GitHub Pages à partir de `index.html`.
+La page de démonstration est publiée sur <https://charte.arcpontoise.fr/> à
+partir de `index.html`.
 
 ## Contenu
 
@@ -20,53 +23,65 @@ La page de démonstration est publiée sur GitHub Pages à partir de `index.html
 
 ## Principes
 
-- Fond blanc cassé `--bg`, texte bleu nuit `--ink`, bandeaux bleu foncé `--blue`
-  soulignés d'un filet `--accent`.
-- Titres `h1` et `h2` en capitales, accent manuscrit en Caveat (classe `.manuscrit`).
-- `--gray-soft` est réservé aux éléments non textuels : son contraste est insuffisant pour du texte.
-- Les variables CSS et les clés de `tokens.yaml` sont en anglais, les classes en français.
-- Point de rupture unique à **600 px** (les variables CSS ne sont pas utilisables dans les media queries).
+- Fond blanc cassé `--bg`, texte bleu nuit `--ink`, bandeaux bleu foncé
+  `--blue` soulignés d'un filet `--accent`.
+- Titres `h1` et `h2` en capitales, accent manuscrit en Caveat (classe
+  `.manuscrit`).
+- `--gray-soft` est réservé aux éléments non textuels : son contraste est
+  insuffisant pour du texte.
+- Les variables CSS et les clés de `tokens.yaml` sont en anglais, les classes
+  en français.
+- Point de rupture unique à **600 px** (les variables CSS ne sont pas
+  utilisables dans les media queries).
 
-## Utilisation dans un autre dépôt
+## Utilisation dans un autre site
+
+La charte est publiée sur **<https://charte.arcpontoise.fr/>** et chargée
+directement par chaque site. Une modification de la charte s'applique ainsi à
+tous les sites sans les reconstruire (cache GitHub Pages d'environ 10 minutes).
 
 Charger les deux feuilles dans cet ordre, puis les styles propres au site :
 
 ```html
-<link rel="stylesheet" href="charte/css/tokens.css">
-<link rel="stylesheet" href="charte/css/charte.css">
+<link rel="stylesheet" href="https://charte.arcpontoise.fr/css/tokens.css">
+<link rel="stylesheet" href="https://charte.arcpontoise.fr/css/charte.css">
 ```
 
-`charte.css` référence la police en `../fonts/caveat.woff2` : conserver l'arborescence
-`css/` et `fonts/` côte à côte.
+Logos et images sont disponibles de la même façon, par exemple
+`https://charte.arcpontoise.fr/img/logo.png`.
 
-### Option recommandée : sous-module Git
+Pour un site qui définit une politique CSP, autoriser l'hôte de la charte :
 
-La charte est copiée dans le site à la génération, sans dépendance externe à l'exécution
-(compatible avec une CSP `style-src 'self'`) :
-
-```bash
-git submodule add https://github.com/arcpontoise/charte.git charte
-git -C charte checkout v1.0.0
-git add .gitmodules charte
-git commit -m "build: add shared visual identity"
+```text
+style-src 'self' https://charte.arcpontoise.fr;
+font-src 'self' https://charte.arcpontoise.fr;
+img-src 'self' https://charte.arcpontoise.fr;
 ```
 
-Dans les workflows GitHub Actions, récupérer le sous-module au checkout :
+### Règles de compatibilité
 
-```yaml
-- uses: actions/checkout@v7
-  with:
-    submodules: true
-```
+Tous les sites suivant la branche `main` en direct, une modification ne doit
+jamais casser un site existant :
 
-Le script de génération du site copie ensuite `charte/css`, `charte/fonts` et `charte/img`
-dans son dossier de sortie.
+- ne jamais renommer ni supprimer une variable ou une classe sans avoir migré
+  tous les sites ;
+- ajouter plutôt que modifier : nouvelle variable, nouvelle classe, nouvelle
+  variante ;
+- en cas de rupture inévitable, publier la nouvelle version sous un chemin
+  dédié (`/v2/`) et migrer les sites un par un ;
+- vérifier la page de démonstration après chaque modification.
 
-### Option simple : lien direct
+La branche `main` est protégée : toute modification passe par une pull request
+dont la CI doit être verte.
 
-Pour un prototype, charger directement les fichiers publiés par GitHub Pages
-(`https://arcpontoise.github.io/charte/css/…`). Toute modification de la charte s'applique
-alors immédiatement à tous les sites, sans contrôle de version.
+### Sites utilisant la charte
+
+| Site | Dépôt |
+| --- | --- |
+| `arcpontoise.fr` | [arcpontoise.github.io](https://github.com/arcpontoise/arcpontoise.github.io) |
+| `infos.arcpontoise.fr` | [infos](https://github.com/arcpontoise/infos) |
+| `arcpontoise.fr/palmares` | [palmares](https://github.com/arcpontoise/palmares) |
+| `drop.arcpontoise.fr` | [drop](https://github.com/arcpontoise/drop) |
 
 ## Composants disponibles
 
@@ -81,13 +96,15 @@ alors immédiatement à tous les sites, sans contrôle de version.
 | `.tuiles` | Grille de liens |
 | `.liste-info` | Bloc d'informations à puces |
 | `.table-wrap`, `tr.grand`, `.num` | Tableaux |
-| `button`, `.bouton`, `.secondaire` | Boutons |
+| `.formulaire` (sur le conteneur) | Champs, libellés et boutons d'un formulaire |
+| `.bouton`, `.secondaire` | Bouton ou lien isolé |
 | `.discret`, `.succes`, `.attention`, `.erreur` | Messages |
 | `.medaille-or`, `.medaille-argent`, `.medaille-bronze` | Podiums |
 
 ## Correspondance avec les anciens noms
 
-Les sites existants utilisent quelques noms différents, à remplacer lors de leur migration :
+Les sites existants utilisent quelques noms différents, à remplacer lors de
+leur migration :
 
 | Ancien nom | Site | Nom dans la charte |
 | --- | --- | --- |
@@ -122,12 +139,12 @@ npm run lint:css
 npm run lint:md
 ```
 
-La CI refuse une modification de `tokens.yaml` sans régénération de `css/tokens.css`.
-Publier une nouvelle version par une étiquette (`v1.1.0`) puis mettre à jour le sous-module
-dans chaque site.
+La CI refuse une modification de `tokens.yaml` sans régénération de
+`css/tokens.css`. Une fois la pull request fusionnée, la modification est en
+ligne pour tous les sites en quelques minutes.
 
 ## Licence
 
-Code sous licence GPL-3.0 (voir `LICENSE`). La police Caveat est sous licence SIL OFL 1.1.
-Le blason, les bandeaux FFTA et le label Ambition restent la propriété de leurs titulaires
-et ne sont pas couverts par la licence du dépôt.
+Code sous licence GPL-3.0 (voir `LICENSE`). La police Caveat est sous licence
+SIL OFL 1.1. Le blason, les bandeaux FFTA et le label Ambition restent la
+propriété de leurs titulaires et ne sont pas couverts par la licence du dépôt.

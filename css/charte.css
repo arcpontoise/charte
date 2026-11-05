@@ -296,16 +296,19 @@ td.num, th.num {
 
 /* --- Forms and buttons --------------------------------------------------- */
 
-label {
+/* Opt-in: wrap a form in .formulaire, or put .bouton on a standalone link or button,
+   so that sites keep full control over their own interactive widgets. */
+
+.formulaire label {
   display: block;
   margin-top: 0.75rem;
   font-weight: 600;
   font-size: 0.9rem;
 }
 
-input:not([type="checkbox"], [type="radio"], [type="submit"], [type="button"]),
-select,
-textarea {
+.formulaire input:not([type="checkbox"], [type="radio"], [type="submit"], [type="button"]),
+.formulaire select,
+.formulaire textarea {
   width: 100%;
   max-width: var(--layout-width-narrow);
   padding: 0.5rem 0.7rem;
@@ -317,12 +320,13 @@ textarea {
   font: inherit;
 }
 
-input[readonly] {
+.formulaire input[readonly] {
   background: var(--bg);
   color: var(--gray);
 }
 
-button, .bouton {
+.formulaire button,
+.bouton {
   display: inline-block;
   margin-top: 1.25rem;
   padding: 0.6rem 1.2rem;
@@ -335,9 +339,11 @@ button, .bouton {
   cursor: pointer;
 }
 
-button.secondaire, .bouton.secondaire { background: var(--gray-soft); }
+.formulaire button.secondaire,
+.bouton.secondaire { background: var(--gray-soft); }
 
-button:disabled {
+.formulaire button:disabled,
+.bouton:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
@@ -380,13 +386,15 @@ button:disabled {
   header.site .logo { height: var(--logo-height-mobile); }
   header.site .manuscrit, header.site .titre { font-size: 1.2rem; }
   main { padding: 1rem 0.75rem 1.25rem; }
-  button, .bouton { width: 100%; }
+
+  .formulaire button,
+  .bouton { width: 100%; }
 }
 
 /* --- Print --------------------------------------------------------------- */
 
 @media print {
   body { background: #fff; }
-  nav.site, button, .bouton { display: none; }
+  nav.site, .formulaire button, .bouton { display: none; }
   header.site { print-color-adjust: exact; }
 }
