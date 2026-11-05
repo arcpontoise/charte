@@ -77,6 +77,17 @@ jamais casser un site existant :
 La branche `main` est protégée : toute modification passe par une pull request
 dont la CI doit être verte.
 
+### Fichiers générés
+
+Les PDF figent la charte au moment de leur génération. Après chaque
+déploiement de la charte, le job `rebuild` du workflow relance donc le build
+des dépôts qui en produisent, en leur transmettant le commit de la charte
+(`charte_ref`). La liste de ces dépôts est la matrice du job `rebuild`.
+
+Ce déclenchement utilise le secret `CHARTE_DISPATCH_TOKEN` : un jeton
+*fine-grained* limité aux dépôts cibles, avec la seule permission
+**Actions : Read and write**. Penser à le renouveler avant son expiration.
+
 ### Sites utilisant la charte
 
 | Site | Dépôt |

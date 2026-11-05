@@ -70,3 +70,30 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v5
+
+  # Sites that bake the charte into generated files (PDFs) must be rebuilt.
+  # Sites that only link the charte stylesheets follow it live and need nothing.
+  rebuild:
+    needs: deploy
+    runs-on: ubuntu-latest
+    permissions: {}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - repo: arcpontoise/infos
+            workflow: deploy.yml
+    steps:
+      - name: Rebuild ${{ matrix.repo }}
+        env:
+          # Fine-grained token: Actions read/write on the target repositories only
+          GH_TOKEN: ${{ secrets.CHARTE_DISPATCH_TOKEN }}
+          REPO: ${{ matrix.repo }}
+          WORKFLOW: ${{ matrix.workflow }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "::error::Secret CHARTE_DISPATCH_TOKEN missing, cannot rebuild $REPO"
+            exit 1
+          fi
+          gh workflow run "$WORKFLOW" --repo "$REPO" --ref main -f charte_ref="$GITHUB_SHA"
+          echo "Rebuild of $REPO requested with charte $GITHUB_SHA"
