@@ -1,0 +1,14 @@
+{
+  "name": "arcpontoise-charte",
+  "private": true,
+  "description": "Charte graphique de la Compagnie d'archers de Pontoise",
+  "scripts": {
+    "lint:css": "stylelint \"css/**/*.css\"",
+    "lint:md": "markdownlint-cli2 \"**/*.md\" \"#node_modules\""
+  },
+  "devDependencies": {
+    "markdownlint-cli2": "^0.23.2",
+    "stylelint": "^16.0.0",
+    "stylelint-config-standard": "^36.0.0"
+  }
+}

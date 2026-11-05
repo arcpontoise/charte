@@ -1,0 +1,392 @@
+/*
+ * Charte graphique — Compagnie d'archers de Pontoise
+ * Shared base styles. Load css/tokens.css first.
+ * Breakpoint: 600px (CSS variables cannot be used in media queries).
+ */
+
+/* --- Fonts --------------------------------------------------------------- */
+
+@font-face {
+  font-family: Caveat;
+  src: url("../fonts/caveat.woff2") format("woff2");
+  font-weight: 400 700;
+  font-display: swap;
+}
+
+/* --- Base ---------------------------------------------------------------- */
+
+:root { color-scheme: light; }
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: var(--font-size-base) / var(--line-height) var(--font-body);
+}
+
+a { color: var(--accent); }
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+h1, h2 {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--heading-letter-spacing);
+}
+
+h1 {
+  font-size: 1.55rem;
+  margin: 0.3rem 0 0.2rem;
+}
+
+h2 {
+  font-size: 1.2rem;
+  margin: 2rem 0 0.6rem;
+  color: var(--blue);
+}
+
+h3 {
+  margin: 1rem 0 0.4rem;
+  color: var(--blue);
+}
+
+code {
+  font-family: var(--font-mono);
+  word-break: break-all;
+}
+
+img { max-width: 100%; }
+
+/* Handwritten accent, as on the club's social media posts */
+.manuscrit {
+  font-family: var(--font-script);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* --- Layout -------------------------------------------------------------- */
+
+.gabarit {
+  max-width: var(--layout-width);
+  margin: 0 auto;
+}
+.gabarit.etroit { max-width: var(--layout-width-narrow); }
+
+header.site {
+  background: var(--blue);
+  color: var(--bg);
+  padding: 1.4rem 1.25rem 1.1rem;
+  border-bottom: var(--accent-border-width) solid var(--accent);
+}
+
+header.site .entete-flex {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+header.site a.marque {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+header.site .logo {
+  height: var(--logo-height);
+  width: auto;
+  flex: none;
+}
+
+header.site .manuscrit {
+  margin: 0;
+  font-size: 1.55rem;
+  line-height: 1.1;
+  color: var(--header-text);
+}
+
+header.site .titre {
+  margin: 0.15rem 0 0;
+  font-size: 1.55rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--heading-letter-spacing);
+}
+
+header.site .sous-titre {
+  margin: 0.15rem 0 0;
+  font-size: 0.9rem;
+  color: var(--header-text);
+}
+
+nav.site {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.4rem;
+  padding: 0.8rem 1.25rem 0;
+}
+
+:where(nav.site) a {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+:where(nav.site) a[aria-current] {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+main { padding: 1.25rem 1.25rem 1.5rem; }
+
+footer.site {
+  padding: 0 1.25rem 1.5rem;
+  font-size: 0.88rem;
+  color: var(--gray);
+}
+
+.fil {
+  color: var(--gray);
+  font-size: 0.9rem;
+}
+.fil a { color: var(--gray); }
+
+/* --- Cards and figures --------------------------------------------------- */
+
+.carte {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.8rem 1rem;
+  margin: 1rem 0;
+}
+
+.carte.accent { border-left: var(--accent-border-width) solid var(--accent); }
+
+.chiffres {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.chiffre {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: var(--accent-border-width) solid var(--accent);
+  border-radius: var(--radius);
+  padding: 0.7rem 0.9rem;
+}
+
+.chiffre b {
+  display: block;
+  font-size: 1.7rem;
+  line-height: 1.2;
+  color: var(--blue);
+}
+
+.chiffre span {
+  color: var(--gray);
+  font-size: 0.9rem;
+}
+
+.tuiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.8rem;
+}
+
+.tuiles a {
+  display: block;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: var(--accent-border-width) solid var(--accent);
+  border-radius: var(--radius);
+  padding: 0.5rem 0.8rem;
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.tuiles a:hover { background: var(--pale); }
+
+.tuiles a b {
+  font-size: 1.1rem;
+  color: var(--blue);
+}
+
+.tuiles a span {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--gray);
+}
+
+/* Compact information block (limits, accepted formats...) */
+.liste-info {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0.85rem 1rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.88rem;
+  color: var(--gray);
+}
+
+/* Absolute bullet rather than flex, so inline <strong> does not split the sentence */
+.liste-info li {
+  position: relative;
+  padding: 0.3rem 0 0.3rem 1.1rem;
+  line-height: 1.4;
+}
+
+.liste-info li::before {
+  content: "•";
+  position: absolute;
+  left: 0.15rem;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.liste-info strong { color: var(--ink); }
+
+details { margin: 0.6rem 0; }
+
+summary {
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0.3rem 0;
+  color: var(--blue);
+}
+
+/* --- Tables -------------------------------------------------------------- */
+
+.table-wrap { overflow-x: auto; }
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  background: var(--card);
+  font-size: 0.92rem;
+}
+
+th, td {
+  border: 1px solid var(--border);
+  padding: 0.4rem 0.65rem;
+  text-align: left;
+}
+
+th {
+  background: var(--blue);
+  color: #fff;
+  font-weight: 600;
+  white-space: nowrap;
+}
+tbody tr:hover { background: var(--hover); }
+tr.grand { background: var(--highlight); }
+
+td.num, th.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Forms and buttons --------------------------------------------------- */
+
+label {
+  display: block;
+  margin-top: 0.75rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+input:not([type="checkbox"], [type="radio"], [type="submit"], [type="button"]),
+select,
+textarea {
+  width: 100%;
+  max-width: var(--layout-width-narrow);
+  padding: 0.5rem 0.7rem;
+  margin-top: 0.25rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+}
+
+input[readonly] {
+  background: var(--bg);
+  color: var(--gray);
+}
+
+button, .bouton {
+  display: inline-block;
+  margin-top: 1.25rem;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: var(--accent);
+  color: #fff;
+  font: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+button.secondaire, .bouton.secondaire { background: var(--gray-soft); }
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* --- Messages ------------------------------------------------------------ */
+
+.discret {
+  color: var(--gray);
+  font-size: 0.9rem;
+}
+
+.erreur {
+  color: var(--danger);
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.succes {
+  color: var(--success);
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.attention {
+  color: var(--warning);
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+}
+
+/* --- Medals -------------------------------------------------------------- */
+
+.medaille-or { color: var(--gold); }
+.medaille-argent { color: var(--silver); }
+.medaille-bronze { color: var(--bronze); }
+
+/* --- Small screens ------------------------------------------------------- */
+
+@media (width <= 600px) {
+  header.site { padding: 0.8rem 1rem; }
+  header.site .logo { height: var(--logo-height-mobile); }
+  header.site .manuscrit, header.site .titre { font-size: 1.2rem; }
+  main { padding: 1rem 0.75rem 1.25rem; }
+  button, .bouton { width: 100%; }
+}
+
+/* --- Print --------------------------------------------------------------- */
+
+@media print {
+  body { background: #fff; }
+  nav.site, button, .bouton { display: none; }
+  header.site { print-color-adjust: exact; }
+}

@@ -1,0 +1,72 @@
+---
+name: Lint et publication
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: Dépendances
+        run: pip install -r requirements.txt
+      - name: Lint YAML
+        run: yamllint .
+      - name: Lint Python
+        run: |
+          ruff check scripts
+          ruff format --check scripts
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          cache: npm
+      - name: Dépendances Node
+        run: npm ci
+      - name: Lint CSS
+        run: npm run lint:css
+      - name: Lint Markdown
+        run: npm run lint:md
+      - name: tokens.css à jour
+        run: python scripts/build_tokens.py --check
+
+  build:
+    needs: lint
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Assemblage du site
+        run: |
+          mkdir -p _site
+          cp -r index.html css fonts img tokens.yaml _site/
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

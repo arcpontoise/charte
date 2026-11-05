@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Charte graphique — Compagnie d'archers de Pontoise</title>
+<link rel="icon" href="img/logo.png">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/charte.css">
+<style>
+  /* Guide-only styles */
+  .nuancier { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0.8rem; }
+  .nuance { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .nuance i { display: block; height: 64px; border-bottom: 1px solid var(--border); }
+  .nuance code, .nuance span { display: block; padding: 0.2rem 0.6rem; font-size: 0.85rem; }
+  .nuance span { color: var(--gray); padding-bottom: 0.5rem; }
+  .logos { display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: center; }
+  .logos img { height: 80px; width: auto; }
+  .sur-bleu { background: var(--blue); padding: 0.5rem; border-radius: var(--radius); }
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="gabarit entete-flex">
+    <img class="logo" src="img/logo.png" alt="">
+    <div>
+      <p class="manuscrit">Compagnie d'archers de Pontoise</p>
+      <p class="titre">Charte graphique</p>
+      <p class="sous-titre">Couleurs, typographie et composants communs aux sites de la compagnie</p>
+    </div>
+  </div>
+</header>
+<nav class="site gabarit" aria-label="Sections">
+  <a href="#couleurs">Couleurs</a>
+  <a href="#typographie">Typographie</a>
+  <a href="#composants">Composants</a>
+  <a href="#formulaires">Formulaires</a>
+  <a href="#logos">Logos</a>
+</nav>
+<main class="gabarit">
+  <h2 id="couleurs">Couleurs</h2>
+  <p class="discret">Valeurs issues de <code>tokens.yaml</code>, lues directement dans <code>css/tokens.css</code>.</p>
+  <div class="nuancier" id="nuancier"></div>
+
+  <h2 id="typographie">Typographie</h2>
+  <div class="carte">
+    <h1>Titre de niveau 1</h1>
+    <h2>Titre de niveau 2</h2>
+    <h3>Titre de niveau 3</h3>
+    <p>Texte courant en police système, 16&nbsp;px, interligne 1,55. <a href="#typographie">Un lien</a>.</p>
+    <p class="manuscrit" style="font-size: 1.8rem;">Accent manuscrit en Caveat</p>
+    <p class="discret">Texte secondaire discret.</p>
+  </div>
+
+  <h2 id="composants">Composants</h2>
+  <div class="chiffres">
+    <div class="chiffre"><b>142</b><span>licenciés</span></div>
+    <div class="chiffre"><b>37</b><span>podiums</span></div>
+    <div class="chiffre"><b>12</b><span>records</span></div>
+  </div>
+  <div class="tuiles">
+    <a href="#composants"><b>2025-2026</b><span>Saison en cours</span></a>
+    <a href="#composants"><b>2024-2025</b><span>Saison précédente</span></a>
+  </div>
+  <div class="carte accent">
+    <p>Carte avec filet d'accent.</p>
+    <ul class="liste-info">
+      <li><strong>Photos</strong> : JPEG, PNG, WEBP</li>
+      <li>Jusqu'à <strong>20</strong> fichiers par envoi</li>
+    </ul>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Archer</th><th>Épreuve</th><th class="num">Score</th></tr></thead>
+      <tbody>
+        <tr class="grand"><td>Archer A <span class="medaille-or">●</span></td><td>Salle 18 m</td><td class="num">582</td></tr>
+        <tr><td>Archer B <span class="medaille-argent">●</span></td><td>Salle 18 m</td><td class="num">571</td></tr>
+        <tr><td>Archer C <span class="medaille-bronze">●</span></td><td>Salle 18 m</td><td class="num">560</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <details>
+    <summary>Bloc dépliable</summary>
+    <p>Contenu masqué par défaut.</p>
+  </details>
+
+  <h2 id="formulaires">Formulaires</h2>
+  <form class="carte" action="#formulaires" onsubmit="return false;">
+    <label for="nom">Nom</label>
+    <input id="nom" type="text" placeholder="Votre nom">
+    <label for="choix">Discipline</label>
+    <select id="choix"><option>Tir à l'arc cible</option><option>Beursault</option></select>
+    <button type="submit">Envoyer</button>
+    <button type="button" class="secondaire">Annuler</button>
+    <p class="succes">Message de succès.</p>
+    <p class="attention">Message d'avertissement.</p>
+    <p class="erreur">Message d'erreur.</p>
+  </form>
+
+  <h2 id="logos">Logos</h2>
+  <div class="logos">
+    <img src="img/logo.png" alt="Blason de Pontoise">
+    <img src="img/ffta-bandeau.png" alt="Bandeau FFTA">
+    <span class="sur-bleu"><img src="img/ffta-bandeau-blanc.png" alt="Bandeau FFTA blanc"></span>
+    <img src="img/label-ambition.png" alt="Label Ambition">
+  </div>
+</main>
+<footer class="site gabarit">
+  <p><a href="https://github.com/arcpontoise/charte">Dépôt de la charte</a> — <a href="https://arcpontoise.fr/">arcpontoise.fr</a></p>
+</footer>
+<script>
+  // Build the colour swatches from the custom properties actually loaded
+  const colors = [
+    "accent", "blue", "blue-mid", "ink", "header-text", "bg", "card", "pale",
+    "hover", "highlight", "gray", "gray-soft", "border", "danger", "success", "warning",
+    "gold", "silver", "bronze",
+  ];
+  const styles = getComputedStyle(document.documentElement);
+  const swatches = document.getElementById("nuancier");
+  for (const name of colors) {
+    const value = styles.getPropertyValue(`--${name}`).trim();
+    const block = document.createElement("div");
+    block.className = "nuance";
+    const chip = document.createElement("i");
+    chip.style.background = `var(--${name})`;
+    const code = document.createElement("code");
+    code.textContent = `--${name}`;
+    const label = document.createElement("span");
+    label.textContent = value;
+    block.append(chip, code, label);
+    swatches.append(block);
+  }
+</script>
+</body>
+</html>
