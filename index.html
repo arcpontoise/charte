@@ -7,6 +7,7 @@
 <link rel="icon" href="img/logo.png">
 <link rel="stylesheet" href="css/tokens.css">
 <link rel="stylesheet" href="css/charte.css">
+<script src="js/menu.js" defer></script>
 <style>
   /* Guide-only styles */
   .nuancier { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0.8rem; }
@@ -28,6 +29,10 @@
       <p class="titre">Charte graphique</p>
       <p class="sous-titre">Couleurs, typographie et composants communs aux sites de la compagnie</p>
     </div>
+    <arc-menu actuel="accueil">
+      <a href="https://arcpontoise.fr/">Accueil</a>
+      <a href="https://contact.arcpontoise.fr/">Contact</a>
+    </arc-menu>
   </div>
 </header>
 <nav class="site gabarit" aria-label="Sections">
@@ -111,7 +116,7 @@
 <script>
   // Build the colour swatches from the custom properties actually loaded
   const colors = [
-    "accent", "blue", "blue-mid", "ink", "header-text", "bg", "card", "pale",
+    "accent", "accent-light", "blue", "blue-mid", "ink", "header-text", "bg", "card", "pale",
     "hover", "highlight", "gray", "gray-soft", "border", "danger", "success", "warning",
     "gold", "silver", "bronze",
   ];

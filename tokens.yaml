@@ -5,6 +5,7 @@
 colors:
   # Brand blues
   accent: "#3f60aa"        # light blue: highlights, links, focus, buttons
+  accent-light: "#8fa6dc"  # current item marker on a dark blue band
   blue: "#1b2b5a"          # dark blue: header bands, table headers, strong elements
   blue-mid: "#475b8b"
   ink: "#09132d"           # main text

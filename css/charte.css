@@ -102,6 +102,7 @@ img { max-width: 100%; }
 .gabarit.etroit { max-width: var(--layout-width-narrow); }
 
 header.site {
+  position: relative;
   background: var(--blue);
   color: var(--bg);
   padding: 1.4rem 1.25rem 1.1rem;
@@ -149,20 +150,172 @@ header.site .sous-titre {
   color: var(--header-text);
 }
 
+/* Local navigation of a site: a full-width bar under the header. The nav
+   itself keeps the content width (.gabarit); the background and the bottom
+   rule are drawn beyond it by the border image outset. */
 nav.site {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem 1.4rem;
-  padding: 0.8rem 1.25rem 0;
+  align-items: center;
+  gap: 0 1.4rem;
+  padding: 0 1.25rem;
+  border-image: linear-gradient(to top, var(--border) 1px, var(--card) 1px) fill 0 / 0 / 0 100vmax;
 }
 
 :where(nav.site) a {
+  padding: 0.7rem 0;
   color: var(--accent);
   font-weight: 600;
+  text-decoration: none;
 }
+
+:where(nav.site) a:hover { text-decoration: underline; }
 
 :where(nav.site) a[aria-current] {
   color: var(--ink);
+  box-shadow: inset 0 -3px var(--accent);
+}
+
+/* --- Shared menu (<arc-menu>, js/menu.js) -------------------------------- */
+
+/* Placed last in header.site .entete-flex, pushed to the right */
+arc-menu,
+.menu-global {
+  display: block;
+  flex: none;
+  margin-left: auto;
+}
+
+/* The brand yields room to the menu: its text wraps, the menu does not */
+header.site .entete-flex > div,
+header.site .entete-flex > .marque {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* Fallback links, shown until js/menu.js has run (or without JavaScript) */
+arc-menu:not(:defined) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+}
+
+.menu-bouton { display: none; }
+
+.menu-liste {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.menu-entree { position: relative; }
+
+.menu-lien {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: var(--radius-sm);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.menu-actuel { box-shadow: inset 0 -3px var(--accent-light); }
+
+.menu-lien:hover,
+.menu-groupe[open] > .menu-lien { background: rgb(255 255 255 / 10%); }
+
+summary.menu-lien { list-style: none; }
+
+summary.menu-lien::-webkit-details-marker { display: none; }
+
+summary.menu-lien::after {
+  content: "";
+  width: 0.4em;
+  height: 0.4em;
+  border: solid currentcolor;
+  border-width: 0 2px 2px 0;
+  transform: translateY(-0.15em) rotate(45deg);
+}
+
+.menu-groupe[open] > summary.menu-lien::after { transform: translateY(0.1em) rotate(-135deg); }
+
+.menu-panneau {
+  position: absolute;
+  top: calc(100% + 0.6rem);
+  left: 0;
+  z-index: 20;
+  width: 20rem;
+  padding: 0.5rem;
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--card);
+  box-shadow: 0 12px 28px rgb(9 19 45 / 18%);
+  color: var(--ink);
+}
+
+/* Dropdowns of the last entries open towards the left, within the page */
+.menu-entree:nth-last-child(-n + 3) .menu-panneau {
+  right: 0;
+  left: auto;
+}
+
+.menu-panneau ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.menu-origine {
+  margin: 0.35rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--blue-mid);
+}
+
+.menu-item {
+  display: block;
+  padding: 0.55rem 0.6rem;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+}
+
+.menu-item:hover,
+.menu-item:focus-visible { background: var(--pale); }
+
+.menu-titre {
+  display: block;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.menu-desc {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--gray);
+}
+
+/* Contact stands apart from the other entries */
+.menu-entree:has(> .menu-contact) { margin-left: 0.5rem; }
+
+.menu-contact {
+  display: block;
+  padding: 0.55rem 1rem;
+  border-radius: var(--radius-sm);
+  background: var(--card);
+  color: var(--blue);
+  font-size: 0.95rem;
+  font-weight: 700;
   text-decoration: none;
 }
 
@@ -403,6 +556,12 @@ td.num, th.num {
 .medaille-argent { color: var(--silver); }
 .medaille-bronze { color: var(--bronze); }
 
+/* Shared menu fallback links (see Shared menu above) */
+arc-menu:not(:defined) > a:any-link {
+  color: #fff;
+  font-weight: 600;
+}
+
 /* --- Small screens ------------------------------------------------------- */
 
 @media (width <= 600px) {
@@ -415,10 +574,121 @@ td.num, th.num {
   .bouton { width: 100%; }
 }
 
+/* --- Shared menu on narrow screens --------------------------------------
+   The menu needs about 1200px next to the brand: it has its own breakpoint.
+   Below it, the entries fold behind a "Menu" toggle into a panel under the
+   header: a <button> driven by js/menu.js (data-js), or, in the markup
+   rendered server-side without JavaScript, a visually hidden checkbox and
+   its label. */
+
+.menu-interrupteur,
+.menu-ouvrir { display: none; }
+
+@media (width <= 1200px) {
+  .menu-bouton,
+  .menu-ouvrir {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    padding: 0 0.85rem;
+    border: 1px solid rgb(255 255 255 / 40%);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: #fff;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .menu-bouton::before,
+  .menu-ouvrir::before {
+    content: "";
+    width: 1.1em;
+    height: 2px;
+    background: currentcolor;
+    box-shadow: 0 -0.35em currentcolor, 0 0.35em currentcolor;
+  }
+
+  /* Checkbox kept focusable for the keyboard, its label shows the focus */
+  .menu-interrupteur {
+    position: absolute;
+    display: block;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+  }
+
+  .menu-interrupteur:focus-visible + .menu-ouvrir {
+    outline: 3px solid var(--accent-light);
+    outline-offset: 2px;
+  }
+
+  .menu-liste { display: none; }
+
+  .menu-global[data-ouvert] .menu-liste,
+  .menu-interrupteur:checked ~ .menu-liste {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 0.5rem 1.25rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--card);
+    box-shadow: 0 12px 28px rgb(9 19 45 / 18%);
+  }
+
+  /* Marker on the link itself: the item also wraps the opened panel */
+  .menu-actuel { box-shadow: none; }
+
+  .menu-actuel > a,
+  .menu-actuel > details > summary { box-shadow: inset 3px 0 var(--accent); }
+
+  .menu-lien {
+    min-height: 48px;
+    padding: 0 0.5rem;
+    border-bottom: 1px solid var(--border);
+    border-radius: 0;
+    color: var(--ink);
+  }
+
+  .menu-lien:hover,
+  .menu-groupe[open] > .menu-lien { background: var(--pale); }
+
+  summary.menu-lien { justify-content: space-between; }
+
+  .menu-panneau {
+    position: static;
+    width: auto;
+    margin: 0.25rem 0 0.5rem;
+    padding: 0 0 0 0.75rem;
+    border: 0;
+    border-left: 3px solid var(--accent);
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .menu-desc { display: none; }
+
+  .menu-entree:has(> .menu-contact) { margin: 1rem 0 0; }
+
+  .menu-contact {
+    background: var(--accent);
+    color: #fff;
+    text-align: center;
+  }
+}
+
 /* --- Print --------------------------------------------------------------- */
 
 @media print {
   body { background: #fff; }
-  nav.site, .formulaire button, .bouton { display: none; }
+  nav.site, arc-menu, .menu-global, .formulaire button, .bouton { display: none; }
   header.site { print-color-adjust: exact; }
 }

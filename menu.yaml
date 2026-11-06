@@ -1,0 +1,104 @@
+---
+# Menu commun a tous les sites de la compagnie.
+# Source unique : js/menu.js (composant <arc-menu>) et menu.json (rendu cote
+# serveur par drop) en sont generes par scripts/build_menu.py.
+#
+# Chaque entree a un identifiant (attribut actuel="..." de <arc-menu> pour
+# la mettre en evidence) et soit un lien direct, soit une liste de liens
+# affichee en menu deroulant.
+
+libelle: Sites de la compagnie
+
+entrees:
+  - id: accueil
+    libelle: Accueil
+    lien: https://arcpontoise.fr/
+
+  - id: compagnie
+    libelle: La compagnie
+    origine: arcpontoise.fr
+    liens:
+      - libelle: Histoire
+        description: Les origines et les traditions de la compagnie
+        lien: https://arcpontoise.fr/histoire/
+      - libelle: Les Roy et le bureau
+        description: Celles et ceux qui font vivre la compagnie
+        lien: https://arcpontoise.fr/les-roy-et-le-bureau/
+      - libelle: Les encadrants
+        description: L'équipe qui anime les séances
+        lien: https://arcpontoise.fr/team/
+      - libelle: Lettre d'information
+        description: Recevoir les nouvelles par courriel
+        lien: https://arcpontoise.fr/newsletter/
+
+  - id: pratiquer
+    libelle: Pratiquer
+    origine: arcpontoise.fr
+    liens:
+      - libelle: Tir en salle
+        description: Gymnase Marie Laurencin et salle d'armes
+        lien: https://arcpontoise.fr/pratiquer/tir-en-salle/
+      - libelle: Tir extérieur
+        description: Le terrain extérieur
+        lien: https://arcpontoise.fr/pratiquer/tir-exterieur/
+      - libelle: Tir Beursault
+        description: Le tir traditionnel au jeu d'arc
+        lien: https://arcpontoise.fr/pratiquer/tir-beursault/
+      - libelle: Parcours
+        description: Le tir en pleine nature
+        lien: https://arcpontoise.fr/pratiquer/parcours/
+      - libelle: Plan d'accès
+        description: Rejoindre nos lieux de pratique
+        lien: https://arcpontoise.fr/plan-dacces/
+      - libelle: Questions fréquentes
+        description: Les réponses aux questions courantes
+        lien: https://arcpontoise.fr/foire-aux-questions/
+
+  - id: inscrire
+    libelle: S'inscrire
+    origine: infos.arcpontoise.fr
+    liens:
+      - libelle: Planning des cours
+        description: Les créneaux de la saison
+        lien: https://infos.arcpontoise.fr/planning/
+      - libelle: Tarifs
+        description: Licence et cotisation
+        lien: https://infos.arcpontoise.fr/tarifs/
+      - libelle: Calculer sa cotisation
+        description: Le montant selon votre situation
+        lien: https://infos.arcpontoise.fr/calculateur/
+      - libelle: Plaquette
+        description: La présentation de la compagnie à télécharger
+        lien: https://infos.arcpontoise.fr/plaquette/
+
+  - id: competitions
+    libelle: Compétitions
+    origine: Palmarès et calendrier
+    liens:
+      - libelle: Calendrier
+        description: Les concours et événements à venir
+        lien: https://arcpontoise.fr/calendrier/
+      - libelle: Palmarès
+        description: Les résultats des archers de la compagnie
+        lien: https://arcpontoise.github.io/palmares/
+      - libelle: Records
+        description: Les meilleurs scores par discipline
+        lien: https://arcpontoise.github.io/palmares/records.html
+      - libelle: Distinctions
+        description: Badges et écussons obtenus
+        lien: https://arcpontoise.github.io/palmares/distinctions.html
+
+  - id: archers
+    libelle: Espace archers
+    liens:
+      - libelle: Déposer vos photos
+        description: Partager les photos d'un concours ou d'un événement
+        lien: https://drop.arcpontoise.fr/
+      - libelle: Palmarès national
+        description: Le classement des archers de la compagnie
+        lien: https://arcpontoise.fr/palmares-national/
+
+  - id: contact
+    libelle: Contact
+    lien: https://contact.arcpontoise.fr/
+    style: bouton
