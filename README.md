@@ -4,7 +4,7 @@ Couleurs, typographie, logos et styles de base communs aux sites de la
 compagnie : la vitrine `arcpontoise.fr`,
 [infos](https://github.com/arcpontoise/infos),
 [palmares](https://github.com/arcpontoise/palmares) et
-[drop](https://github.com/arcpontoise/).
+[drop](https://github.com/arcpontoise/drop).
 
 La page de démonstration est publiée sur <https://charte.arcpontoise.fr/> à
 partir de `index.html`.
@@ -18,8 +18,12 @@ partir de `index.html`.
 | `css/charte.css` | Styles de base et composants communs (stylelint `standard`) |
 | `fonts/` | Polices Caveat (manuscrite) et Inter (PDF), licences OFL dans `fonts/OFL-*.txt` |
 | `img/` | Blason, bandeaux FFTA, label Ambition, décor |
-| `index.html` | Page de démonstration (nuancier, composants) |
+| `index.html` | Page de démonstration (nuancier, composants, menu) |
 | `scripts/build_tokens.py` | Génération et vérification de `css/tokens.css` |
+| `menu.yaml` | Source unique du menu commun à tous les sites |
+| `src/arc-menu.js` | Composant `<arc-menu>` (ESLint) |
+| `js/menu.js`, `menu.json` | Menu **généré** depuis `menu.yaml` et `src/arc-menu.js`, ne pas modifier à la main |
+| `scripts/build_menu.py` | Validation de `menu.yaml`, génération et vérification de `js/menu.js` et `menu.json` |
 
 ## Principes
 
@@ -34,8 +38,10 @@ partir de `index.html`.
   insuffisant pour du texte.
 - Les variables CSS et les clés de `tokens.yaml` sont en anglais, les classes
   en français.
-- Point de rupture unique à **600 px** (les variables CSS ne sont pas
-  utilisables dans les media queries).
+- Point de rupture unique à **600 px** pour le contenu (les variables CSS ne
+  sont pas utilisables dans les media queries). Seul le menu commun bascule en
+  mode mobile sous **1200 px**, largeur sous laquelle ses entrées ne tiennent
+  plus sur une ligne à côté de la marque.
 
 ## Utilisation dans un autre site
 
@@ -59,6 +65,7 @@ Pour un site qui définit une politique CSP, autoriser l'hôte de la charte :
 style-src 'self' https://charte.arcpontoise.fr;
 font-src 'self' https://charte.arcpontoise.fr;
 img-src 'self' https://charte.arcpontoise.fr;
+script-src 'self' https://charte.arcpontoise.fr;
 ```
 
 ### Règles de compatibilité
@@ -102,7 +109,8 @@ Ce déclenchement utilise le secret `CHARTE_DISPATCH_TOKEN` : un jeton
 | Classe | Usage |
 | --- | --- |
 | `header.site`, `.entete-flex`, `.logo`, `.manuscrit`, `.titre`, `.sous-titre` | Bandeau d'en-tête |
-| `nav.site` (lien actif via `aria-current`) | Navigation principale |
+| `arc-menu`, `.menu-global` | Menu commun aux sites (voir ci-dessous) |
+| `nav.site` (lien actif via `aria-current`) | Barre de navigation propre au site, pleine largeur sous l'en-tête |
 | `.gabarit`, `.gabarit.etroit` | Largeur de contenu (1240 px, 720 px) |
 | `footer.site`, `.fil` | Pied de page, fil d'Ariane |
 | `.carte`, `.carte.accent` | Bloc de contenu |
@@ -114,6 +122,103 @@ Ce déclenchement utilise le secret `CHARTE_DISPATCH_TOKEN` : un jeton
 | `.bouton`, `.secondaire` | Bouton ou lien isolé |
 | `.discret`, `.succes`, `.attention`, `.erreur` | Messages |
 | `.medaille-or`, `.medaille-argent`, `.medaille-bronze` | Podiums |
+
+## Menu commun
+
+Tous les sites affichent le même menu, décrit une seule fois dans `menu.yaml`.
+Chaque entrée a un identifiant et soit un lien direct (`lien`), soit une liste
+de liens (`liens`) présentée en menu déroulant. `scripts/build_menu.py` valide
+le fichier (identifiants uniques, liens en `https://` uniquement, aucune clé
+inconnue) et génère :
+
+- `js/menu.js`, le composant `<arc-menu>` pour les sites statiques ;
+- `menu.json`, les mêmes données pour les sites rendus côté serveur.
+
+Comme les feuilles de style, ces fichiers sont chargés en direct : une
+modification du menu apparaît sur tous les sites sans les reconstruire.
+
+| Identifiant | Entrée |
+| --- | --- |
+| `accueil` | Accueil |
+| `compagnie` | La compagnie |
+| `pratiquer` | Pratiquer |
+| `inscrire` | S'inscrire |
+| `competitions` | Compétitions |
+| `archers` | Espace archers |
+| `contact` | Contact (bouton) |
+
+### Sites statiques
+
+Placer le composant dans l'en-tête, à côté de la marque. L'attribut `actuel`
+reçoit l'identifiant de l'entrée à mettre en évidence. Les liens contenus dans
+l'élément servent de repli tant que le script n'est pas chargé :
+
+```html
+<script src="https://charte.arcpontoise.fr/js/menu.js" defer></script>
+
+<header class="site">
+  <div class="gabarit entete-flex">
+    <div><!-- logo, titre --></div>
+    <arc-menu actuel="competitions">
+      <a href="https://arcpontoise.fr/">Accueil</a>
+      <a href="https://contact.arcpontoise.fr/">Contact</a>
+    </arc-menu>
+  </div>
+</header>
+<nav class="site"><!-- navigation propre au site --></nav>
+```
+
+Les menus déroulants sont des éléments `<details>` natifs portant le même
+attribut `name` : ils s'ouvrent, se ferment et restent exclusifs sans
+JavaScript. Le script ajoute seulement le bouton « Menu » du mode mobile et la
+fermeture par la touche Échap ou par un clic à l'extérieur.
+
+### Sites rendus côté serveur
+
+drop et le formulaire de contact lisent `menu.json` (avec un cache et une
+copie de secours) et produisent le même balisage, sans attribut `data-js`. Le
+bouton du mode mobile y est remplacé par une case à cocher et son libellé, ce
+qui le rend fonctionnel sans JavaScript :
+
+```html
+<nav class="menu-global" aria-label="Sites de la compagnie">
+  <input type="checkbox" id="menu-global-interrupteur" class="menu-interrupteur">
+  <label for="menu-global-interrupteur" class="menu-ouvrir">Menu</label>
+  <ul class="menu-liste">
+    <li class="menu-entree"><a class="menu-lien" href="…">Accueil</a></li>
+    <li class="menu-entree menu-actuel">
+      <details class="menu-groupe" name="menu-global">
+        <summary class="menu-lien" aria-current="true">Compétitions</summary>
+        <div class="menu-panneau">
+          <p class="menu-origine">Palmarès et calendrier</p>
+          <ul>
+            <li>
+              <a class="menu-item" href="…">
+                <span class="menu-titre">Palmarès</span>
+                <span class="menu-desc">Les résultats des archers</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </details>
+    </li>
+    <li class="menu-entree"><a class="menu-contact" href="…">Contact</a></li>
+  </ul>
+</nav>
+```
+
+L'administration de drop n'affiche pas ce menu, seulement un lien de retour
+vers le site de la compagnie.
+
+### Sécurité
+
+- `menu.yaml` est la seule source : toute modification passe par une pull
+  request, comme le reste de la charte.
+- Le composant construit le DOM avec `createElement` et `textContent`, sans
+  jamais interpréter de HTML ; le rendu serveur échappe les textes (Jinja2).
+- Seuls les liens en `https://` sont acceptés à la génération.
+- Une politique CSP doit autoriser le script :
+  `script-src 'self' https://charte.arcpontoise.fr`.
 
 ## Correspondance avec les anciens noms
 
@@ -147,15 +252,19 @@ pip install -r requirements.txt
 npm ci
 # edit tokens.yaml, then:
 python scripts/build_tokens.py
+# edit menu.yaml or src/arc-menu.js, then:
+python scripts/build_menu.py
 yamllint .
 ruff check scripts && ruff format --check scripts
 npm run lint:css
+npm run lint:js
 npm run lint:md
 ```
 
-La CI refuse une modification de `tokens.yaml` sans régénération de
-`css/tokens.css`. Une fois la pull request fusionnée, la modification est en
-ligne pour tous les sites en quelques minutes.
+La CI refuse une modification de `tokens.yaml`, `menu.yaml` ou
+`src/arc-menu.js` sans régénération des fichiers correspondants. Une fois la
+pull request fusionnée, la modification est en ligne pour tous les sites en
+quelques minutes.
 
 ## Licence
 
