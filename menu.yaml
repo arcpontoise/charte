@@ -27,9 +27,12 @@ entrees:
       - libelle: Les encadrants
         description: L'équipe qui anime les séances
         lien: https://arcpontoise.fr/team/
-      - libelle: Lettre d'information
-        description: Recevoir les nouvelles par courriel
-        lien: https://arcpontoise.fr/newsletter/
+      - libelle: Actualités
+        description: Concours, événements et vie de la compagnie
+        lien: https://arcpontoise.fr/articles/
+      - libelle: Galeries photo
+        description: Les photos de nos concours et événements
+        lien: https://arcpontoise.fr/galeries/
 
   - id: pratiquer
     libelle: Pratiquer
@@ -73,14 +76,14 @@ entrees:
 
   - id: competitions
     libelle: Compétitions
-    origine: Palmarès et calendrier
+    origine: Palmarès de la compagnie
     liens:
-      - libelle: Calendrier
-        description: Les concours et événements à venir
-        lien: https://arcpontoise.fr/calendrier/
       - libelle: Palmarès
         description: Les résultats des archers de la compagnie
         lien: https://arcpontoise.github.io/palmares/
+      - libelle: Palmarès national
+        description: Podiums et classements aux championnats de France
+        lien: https://arcpontoise.github.io/palmares/national.html
       - libelle: Records
         description: Les meilleurs scores par discipline
         lien: https://arcpontoise.github.io/palmares/records.html
@@ -90,13 +93,7 @@ entrees:
 
   - id: archers
     libelle: Espace archers
-    liens:
-      - libelle: Déposer vos photos
-        description: Partager les photos d'un concours ou d'un événement
-        lien: https://drop.arcpontoise.fr/
-      - libelle: Palmarès national
-        description: Le classement des archers de la compagnie
-        lien: https://arcpontoise.fr/palmares-national/
+    lien: https://drop.arcpontoise.fr/
 
   - id: contact
     libelle: Contact
