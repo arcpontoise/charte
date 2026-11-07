@@ -26,9 +26,14 @@
           "description": "L'équipe qui anime les séances"
         },
         {
-          "libelle": "Lettre d'information",
-          "lien": "https://arcpontoise.fr/newsletter/",
-          "description": "Recevoir les nouvelles par courriel"
+          "libelle": "Actualités",
+          "lien": "https://arcpontoise.fr/articles/",
+          "description": "Concours, événements et vie de la compagnie"
+        },
+        {
+          "libelle": "Galeries photo",
+          "lien": "https://arcpontoise.fr/galeries/",
+          "description": "Les photos de nos concours et événements"
         }
       ],
       "origine": "arcpontoise.fr"
@@ -102,14 +107,14 @@
       "libelle": "Compétitions",
       "liens": [
         {
-          "libelle": "Calendrier",
-          "lien": "https://arcpontoise.fr/calendrier/",
-          "description": "Les concours et événements à venir"
-        },
-        {
           "libelle": "Palmarès",
           "lien": "https://arcpontoise.github.io/palmares/",
           "description": "Les résultats des archers de la compagnie"
+        },
+        {
+          "libelle": "Palmarès national",
+          "lien": "https://arcpontoise.github.io/palmares/national.html",
+          "description": "Podiums et classements aux championnats de France"
         },
         {
           "libelle": "Records",
@@ -122,23 +127,12 @@
           "description": "Badges et écussons obtenus"
         }
       ],
-      "origine": "Palmarès et calendrier"
+      "origine": "Palmarès de la compagnie"
     },
     {
       "id": "archers",
       "libelle": "Espace archers",
-      "liens": [
-        {
-          "libelle": "Déposer vos photos",
-          "lien": "https://drop.arcpontoise.fr/",
-          "description": "Partager les photos d'un concours ou d'un événement"
-        },
-        {
-          "libelle": "Palmarès national",
-          "lien": "https://arcpontoise.fr/palmares-national/",
-          "description": "Le classement des archers de la compagnie"
-        }
-      ]
+      "lien": "https://drop.arcpontoise.fr/"
     },
     {
       "id": "contact",
