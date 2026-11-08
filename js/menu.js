@@ -34,6 +34,19 @@ function el(tag, attributes = {}, children = []) {
   return node;
 }
 
+// Plain http is accepted only for a preview on the local network
+// (python -m http.server): this machine, a private IPv4 address, or a LAN
+// host name (single label, .local, .lan, .home.arpa, .internal).
+const PRIVATE_IPV4 = /^(127|10)\.|^192\.168\.|^172\.(1[6-9]|2\d|3[01])\./;
+const LAN_NAME = /^[a-z0-9-]+$|\.(local|lan|home\.arpa|internal)$/;
+
+function isLocalHost(hostname) {
+  if (/^\d+\.\d+\.\d+\.\d+$/.test(hostname)) {
+    return PRIVATE_IPV4.test(hostname);
+  }
+  return hostname === "localhost" || LAN_NAME.test(hostname);
+}
+
 // Base address given by the site attribute, or null when absent or invalid
 function siteBase(value) {
   if (!value) {
@@ -41,8 +54,7 @@ function siteBase(value) {
   }
   try {
     const url = new URL(value);
-    // https only, except a local preview (python -m http.server)
-    const local = url.protocol === "http:" && ["localhost", "127.0.0.1"].includes(url.hostname);
+    const local = url.protocol === "http:" && isLocalHost(url.hostname);
     return url.protocol === "https:" || local ? url.origin + url.pathname.replace(/\/$/, "") : null;
   } catch {
     return null;
