@@ -183,7 +183,9 @@ alors vers cette adresse, chemin conservé. Ainsi, la vitrine publiée sur
 <arc-menu actuel="compagnie" site="https://arcpontoise.github.io">
 ```
 
-Les autres sites (infos, palmarès, drop) ne le renseignent pas : leurs liens
+Seules les adresses en `https://` sont acceptées, plus `http://localhost` et
+`http://127.0.0.1` pour un essai en local. Les autres sites (infos, palmarès,
+drop) ne le renseignent pas : leurs liens
 mènent à `arcpontoise.fr`. Une fois le domaine basculé, l'attribut devient
 sans effet.
 

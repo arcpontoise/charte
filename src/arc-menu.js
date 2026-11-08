@@ -33,7 +33,9 @@ function siteBase(value) {
   }
   try {
     const url = new URL(value);
-    return url.protocol === "https:" ? url.origin + url.pathname.replace(/\/$/, "") : null;
+    // https only, except a local preview (python -m http.server)
+    const local = url.protocol === "http:" && ["localhost", "127.0.0.1"].includes(url.hostname);
+    return url.protocol === "https:" || local ? url.origin + url.pathname.replace(/\/$/, "") : null;
   } catch {
     return null;
   }
