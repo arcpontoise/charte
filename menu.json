@@ -43,6 +43,11 @@
       "libelle": "Pratiquer",
       "liens": [
         {
+          "libelle": "Toutes les pratiques",
+          "lien": "https://arcpontoise.fr/pratiquer/",
+          "description": "Les disciplines de la compagnie en un coup d'œil"
+        },
+        {
           "libelle": "Tir en salle",
           "lien": "https://arcpontoise.fr/pratiquer/tir-en-salle/",
           "description": "Gymnase Marie Laurencin et salle d'armes"
