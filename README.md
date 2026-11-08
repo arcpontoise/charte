@@ -173,6 +173,20 @@ attribut `name` : ils s'ouvrent, se ferment et restent exclusifs sans
 JavaScript. Le script ajoute seulement le bouton « Menu » du mode mobile et la
 fermeture par la touche Échap ou par un clic à l'extérieur.
 
+L'attribut facultatif `site` reçoit l'adresse où le site vitrine est
+réellement publié. Les liens du menu vers `https://arcpontoise.fr` pointent
+alors vers cette adresse, chemin conservé. Ainsi, la vitrine publiée sur
+`https://arcpontoise.github.io` garde ses visiteurs tant que le domaine
+`arcpontoise.fr` sert encore l'ancien site :
+
+```html
+<arc-menu actuel="compagnie" site="https://arcpontoise.github.io">
+```
+
+Les autres sites (infos, palmarès, drop) ne le renseignent pas : leurs liens
+mènent à `arcpontoise.fr`. Une fois le domaine basculé, l'attribut devient
+sans effet.
+
 ### Sites rendus côté serveur
 
 drop et le formulaire de contact lisent `menu.json` (avec un cache et une
