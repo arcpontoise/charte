@@ -183,8 +183,11 @@ alors vers cette adresse, chemin conservé. Ainsi, la vitrine publiée sur
 <arc-menu actuel="compagnie" site="https://arcpontoise.github.io">
 ```
 
-Seules les adresses en `https://` sont acceptées, plus `http://localhost` et
-`http://127.0.0.1` pour un essai en local. Les autres sites (infos, palmarès,
+Seules les adresses en `https://` sont acceptées, plus, pour un essai sur le
+réseau local, `http://` vers cette machine (`localhost`), une adresse IPv4
+privée (`10.*`, `172.16.*` à `172.31.*`, `192.168.*`) ou un nom de machine
+du réseau local (nom sans point, ou en `.local`, `.lan`, `.home.arpa`,
+`.internal`). Les autres sites (infos, palmarès,
 drop) ne le renseignent pas : leurs liens
 mènent à `arcpontoise.fr`. Une fois le domaine basculé, l'attribut devient
 sans effet.
