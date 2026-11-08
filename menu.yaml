@@ -38,6 +38,9 @@ entrees:
     libelle: Pratiquer
     origine: arcpontoise.fr
     liens:
+      - libelle: Toutes les pratiques
+        description: Les disciplines de la compagnie en un coup d'œil
+        lien: https://arcpontoise.fr/pratiquer/
       - libelle: Tir en salle
         description: Gymnase Marie Laurencin et salle d'armes
         lien: https://arcpontoise.fr/pratiquer/tir-en-salle/
