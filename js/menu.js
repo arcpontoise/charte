@@ -9,6 +9,10 @@ const ARC_MENU = {"libelle":"Sites de la compagnie","entrees":[{"id":"accueil","
 // Shared navigation menu of the club's sites, rendered from ARC_MENU (menu.yaml).
 //
 // Usage: <arc-menu actuel="competitions">fallback links</arc-menu>
+// Optional site="https://arcpontoise.github.io": links to the main site
+// (MAIN_SITE) point to that address instead, keeping their path. A copy of
+// the main site published elsewhere (preview before the DNS switch) thus
+// keeps its visitors on it.
 // The markup is the same as the server-side rendering done by drop (see the
 // README): dropdowns are native <details> elements sharing a name, so they
 // open, close and stay exclusive without JavaScript. This script only adds
@@ -16,6 +20,7 @@ const ARC_MENU = {"libelle":"Sites de la compagnie","entrees":[{"id":"accueil","
 // Built with DOM APIs and textContent only: no HTML string is ever parsed.
 
 const MOBILE_QUERY = "(max-width: 1200px)";
+const MAIN_SITE = "https://arcpontoise.fr";
 let navCount = 0;
 
 function el(tag, attributes = {}, children = []) {
@@ -29,14 +34,35 @@ function el(tag, attributes = {}, children = []) {
   return node;
 }
 
-function buildEntry(entry, current, groupName) {
+// Base address given by the site attribute, or null when absent or invalid
+function siteBase(value) {
+  if (!value) {
+    return null;
+  }
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" ? url.origin + url.pathname.replace(/\/$/, "") : null;
+  } catch {
+    return null;
+  }
+}
+
+function localLink(href, base) {
+  const onMainSite = href === MAIN_SITE || href.startsWith(`${MAIN_SITE}/`);
+  if (!base || !onMainSite) {
+    return href;
+  }
+  return base + (href.slice(MAIN_SITE.length) || "/");
+}
+
+function buildEntry(entry, current, groupName, base) {
   const isCurrent = entry.id === current;
   const item = el("li", { class: isCurrent ? "menu-entree menu-actuel" : "menu-entree" });
   const currentAttr = isCurrent ? "true" : null;
 
   if (!entry.liens) {
     const linkClass = entry.style === "bouton" ? "menu-contact" : "menu-lien";
-    item.append(el("a", { class: linkClass, href: entry.lien, "aria-current": currentAttr }, [entry.libelle]));
+    item.append(el("a", { class: linkClass, href: localLink(entry.lien, base), "aria-current": currentAttr }, [entry.libelle]));
     return item;
   }
 
@@ -45,7 +71,7 @@ function buildEntry(entry, current, groupName) {
     if (link.description) {
       parts.push(el("span", { class: "menu-desc" }, [link.description]));
     }
-    return el("li", {}, [el("a", { class: "menu-item", href: link.lien }, parts)]);
+    return el("li", {}, [el("a", { class: "menu-item", href: localLink(link.lien, base) }, parts)]);
   });
   const panel = el("div", { class: "menu-panneau" });
   if (entry.origine) {
@@ -74,14 +100,14 @@ function closeGroups(nav) {
   }
 }
 
-function buildNav(menu, current) {
+function buildNav(menu, current, base) {
   navCount += 1;
   const listId = `menu-global-${navCount}`;
   const groupName = `menu-global-${navCount}`;
   const list = el(
     "ul",
     { class: "menu-liste", id: listId },
-    menu.entrees.map((entry) => buildEntry(entry, current, groupName)),
+    menu.entrees.map((entry) => buildEntry(entry, current, groupName, base)),
   );
   const button = el(
     "button",
@@ -138,7 +164,8 @@ class ArcMenu extends HTMLElement {
     if (this.querySelector(":scope > .menu-global")) {
       return;
     }
-    this.replaceChildren(buildNav(ARC_MENU, this.getAttribute("actuel") || ""));
+    const base = siteBase(this.getAttribute("site"));
+    this.replaceChildren(buildNav(ARC_MENU, this.getAttribute("actuel") || "", base));
   }
 }
 
