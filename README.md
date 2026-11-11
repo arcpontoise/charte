@@ -113,6 +113,7 @@ Ce déclenchement utilise le secret `CHARTE_DISPATCH_TOKEN` : un jeton
 | `nav.site` (lien actif via `aria-current`) | Barre de navigation propre au site, pleine largeur sous l'en-tête |
 | `.gabarit`, `.gabarit.etroit` | Largeur de contenu (1240 px, 720 px) |
 | `footer.site`, `.fil` | Pied de page, fil d'Ariane |
+| `.stats-refus` | Bouton « Refuser la mesure d'audience » du pied de page (script `stats.js` du dépôt [stats](https://github.com/arcpontoise/stats)) |
 | `.carte`, `.carte.accent` | Bloc de contenu |
 | `.chiffres` / `.chiffre` | Indicateurs chiffrés |
 | `.tuiles` | Grille de liens |
