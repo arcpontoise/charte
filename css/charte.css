@@ -327,6 +327,26 @@ footer.site {
   color: var(--gray);
 }
 
+/* Opt-out of the audience measurement (stats.js of arcpontoise/stats):
+   a discreet text link, hidden until the measurement is loaded */
+.stats-refus {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: 0.85em;
+  text-decoration: underline dotted;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+.stats-refus:hover,
+.stats-refus:focus-visible {
+  color: var(--accent);
+  text-decoration-style: solid;
+}
+
 .fil {
   color: var(--gray);
   font-size: 0.9rem;
